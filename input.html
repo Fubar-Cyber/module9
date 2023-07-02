@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>To-Do List</h1>
+
+    <h2>Add Item</h2>
+    <input type="text" id="itemInput" placeholder="Enter an item">
+    <button onclick="addItem()">Add</button>
+
+    <h2>Delete Item</h2>
+    <input type="number" id="indexInput" placeholder="Enter the index">
+    <button onclick="deleteItem()">Delete</button>
+
+    <h2>To-Do List</h2>
+    <ul id="todoList"></ul>
+
+    <script>
+        var items = [];
+
+        function addItem() {
+            var itemInput = document.getElementById("itemInput");
+            var item = itemInput.value;
+            if (item.trim() !== "") {
+                items.push({ text: item, completed: false });
+                itemInput.value = "";
+                displayList();
+            }
+        }
+
+        function deleteItem() {
+            var indexInput = document.getElementById("indexInput");
+            var index = parseInt(indexInput.value) - 1;
+            if (index >= 0 && index < items.length) {
+                items[index].completed = true;
+                indexInput.value = "";
+                displayList();
+            }
+        }
+
+        function displayList() {
+            var todoList = document.getElementById("todoList");
+            todoList.innerHTML = "";
+
+            if (items.length === 0) {
+                var emptyMessage = document.createElement("li");
+                emptyMessage.textContent = "Your To-Do list is empty! Go relax and have fun!!!";
+                todoList.appendChild(emptyMessage);
+            } else {
+                for (var i = 0; i < items.length; i++) {
+                    var listItem = document.createElement("li");
+                    listItem.textContent = (i + 1) + ". ";
+
+                    var itemText = document.createElement("span");
+                    if (items[i].completed) {
+                        itemText.classList.add("completed");
+                        itemText.textContent = items[i].text + " (Completed)";
+                    } else {
+                        itemText.textContent = items[i].text;
+                    }
+                    listItem.appendChild(itemText);
+
+                    todoList.appendChild(listItem);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
